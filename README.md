@@ -6,8 +6,8 @@ Demo app using Twilio SMS APIs:
 - Get other people's contact cards texted directly to your phone
 
 ## Installation
-- Register a [Twilio]('https://twilio.com') account
+- Register a [Twilio](https://twilio.com) account
 - Set up `.env` with your credentials (Sid, Secret and Phone #)
-- Set up [ngrok]('https://ngrok.com') and [mongodb]('https://mongodb.com')
+- Set up [ngrok](https://ngrok.com) and [mongodb](https://mongodb.com)
 - Install node dependencies via `npm install`
 - Run via `node app.js`
