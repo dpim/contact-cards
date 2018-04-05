@@ -1,0 +1,55 @@
+html
+  head
+    title= "Contact cards"
+    script(src="https://code.jquery.com/jquery-2.2.4.js", integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=", crossorigin="anonymous")
+    style
+      include style.css
+  body
+    h1= "Contact cards"
+    p(class="about")= "An easy way to share your contact info"
+    h2= "Sign up"
+    table
+      tbody
+          tr
+            th #[input( type='text' name='name' placeholder='my name')]
+          tr 
+            th #[input( type='text' name='email' placeholder='my email')]
+          tr
+            th #[input( type='text' name='phone' placeholder='my phone number')]
+    input(
+      type='checkbox'
+      name='agreement'
+      class='terms'
+    ) 
+    span= "I agree to the terms"
+    div #[button(class='submit' type='submit') add me]
+  footer#footer
+    p Dmitry Pimenov
+
+script.
+  $('.submit').click(()=>{
+    const agreementChecked = $('.terms')[0].checked;
+    const displayName = $("input:text[name='name']").val();
+    const phoneNumber = $("input:text[name='phone']").val();
+    const emailAddress = $("input:text[name='email']").val();
+    const apiUrl = "http://localhost:3000/contacts"
+    if (agreementChecked && displayName && (phoneNumber || emailAddress)){
+      const data = {
+        displayName: displayName,
+        phoneNumber: phoneNumber,
+        emailAddress: emailAddress
+      }
+      fetch(apiUrl, {
+        method: 'POST', 
+        body: JSON.stringify(data), 
+        headers: new Headers({
+          'Content-Type': 'application/json'
+        })
+      })
+      .then(res => res.json())
+      .then(response => {
+        const contactId = response._id;
+        window.location.href = apiUrl+"/"+contactId;
+      });
+    }
+  });

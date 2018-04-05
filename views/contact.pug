@@ -1,0 +1,54 @@
+html
+  head
+    title= contact.displayName
+    script(src="https://code.jquery.com/jquery-2.2.4.js", integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=", crossorigin="anonymous")
+    style
+      include style.css
+  body
+    h1= "Contact card"
+    table
+      tbody
+          tr
+            th #{contact.displayName}
+          tr 
+            th #{contact.phoneNumber}
+          tr
+            th #{contact.emailAddress}
+          tr 
+            th #{contact.contactUrl}
+    input(
+      type= 'text'
+      name= 'phone'
+      placeholder= 'my number'
+    )
+    input(
+      type= 'checkbox'
+      name= 'agreement'
+      class= 'terms'
+    )
+    span= "I agree to the terms"
+    div #[button(class='submit' type='submit') text me]
+  footer#footer
+    p Dmitry Pimenov
+
+script.
+  $('.submit').click(()=>{
+    const href = window.location.href;
+    const agreementChecked = $('.terms')[0].checked;
+    const phoneNumber = $("input:text[name='phone']").val();
+    const apiUrl = href + "/sendInfo";
+    if (agreementChecked && phoneNumber){
+      const data = {
+        recipientPhoneNumber: phoneNumber
+      }
+      fetch(apiUrl, {
+        method: 'POST', 
+        body: JSON.stringify(data), 
+        headers: new Headers({
+          'Content-Type': 'application/json'
+        })
+      }).then(res => {
+        $('.submit').text("sent!");
+      })
+    }
+  });
